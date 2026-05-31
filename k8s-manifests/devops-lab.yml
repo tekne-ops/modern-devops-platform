@@ -14,8 +14,22 @@ spec:
     spec:
       imagePullSecrets:
         - name: regcred
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
       containers:
       - name: app
         image: ghcr.io/tekne-ops/devops-lab:latest
         ports:
         - containerPort: 5000
+
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+
+          capabilities:
+            drop:
+              - ALL

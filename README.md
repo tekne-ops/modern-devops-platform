@@ -37,3 +37,22 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 kubectl get secret argocd-initial-admin-secret -n argocd \
   -o jsonpath="{.data.password}" | base64 -d
 ```
+
+## Prometheus & Grafana Setup
+
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install kube-prometheus prometheus-community/kube-prometheus-stack
+helm install loki grafana/loki-stack
+```
+
+```bash
+kubectl patch svc kube-prometheus-grafana -n monitoring \
+  -p '{"spec": {"type": "NodePort"}}'
+```
+
+```bash
+kubectl get secret kube-prometheus-grafana -n monitoring \
+  -o jsonpath="{.data.admin-password}" | base64 -d
+```
