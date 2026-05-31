@@ -56,3 +56,12 @@ kubectl patch svc kube-prometheus-grafana -n monitoring \
 kubectl get secret kube-prometheus-grafana -n monitoring \
   -o jsonpath="{.data.admin-password}" | base64 -d
 ```
+
+## Trivy Security Scanning
+
+```bash
+sudo pacman -Sy --needed trivy
+trivy config .
+trivy image ghcr.io/YOUR_USER/devops-lab:latest
+trivy image --severity HIGH,CRITICAL ghcr.io/tekne-ops/devops-lab:latest
+```

@@ -1,13 +1,14 @@
-FROM python:3.11-slim
+FROM python:3.11-alpine
 
 WORKDIR /app
 
 COPY . .
 
-RUN pip install --no-cache-dir flask
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # ✅ Create non-root user
-RUN useradd -m appuser
+RUN adduser -D appuser
 
 # ✅ Switch to non-root
 USER appuser
